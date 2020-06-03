@@ -1,0 +1,21 @@
+version: "3.7"
+
+
+services:
+  repl:
+    image: ajchemist/clojure:tools-deps-alpine
+    command: -A:cider/nrepl -m nrepl.cmdline --bind "0.0.0.0" --port 4000 --middleware '["refactor-nrepl.middleware/wrap-refactor", "cider.nrepl/cider-middleware"]'
+    ports:
+      - 4000:4000
+    working_dir: /app
+    volumes:
+      - "./:/app"
+      - cache-m2-repository:/root/.m2/repository
+      - cache-gitlibs:/root/.gitlibs
+
+
+volumes:
+  cache-m2-repository:
+    external: true
+  cache-gitlibs:
+    external: true
